@@ -1,0 +1,123 @@
+"Games"
+{
+	"#default"
+	{
+		"Addresses"
+		{
+			"CTerrorPlayer::OnTakeDamage_Alive"
+			{
+				"windows"
+				{
+					"signature"	"CTerrorPlayer::OnTakeDamage_Alive"
+				}
+			}
+		}
+	}
+
+	"left4dead"
+	{
+		"Offsets"
+		{
+			// 8320 (0x2080) on Linux and 8300 (0x206C) on Windows - the offset to search for the "m_isGoingToDie" property (dump netprops and view offset)
+			// Then you will see +1.0 starting with CMP around the offset:
+			/*
+			if ( *((_BYTE *)this + 8320) )
+			{
+				v40 = v13;
+				v14 = v40;
+				if ( !(*(unsigned __int8 (__cdecl **)(CTerrorPlayer *))(*(_DWORD *)this + 1920))(this) )
+					v14 = v14 + 1.0;
+			}
+			*/
+			"OnTakeDamage_Alive_Offset"
+			{
+				"linux"			"450"
+				"windows"		"1152"
+			}
+			"OnTakeDamage_Alive_Bytes"
+			{
+				"linux"			"13"
+				"windows"		"46"
+			}
+			"OnTakeDamage_Alive_Match"
+			{
+				"linux"			"128"
+				"windows"		"128"
+			}
+		}
+
+		"Signatures"
+		{
+			/**
+			 * Thanks to "Psyk0tik" from: https://github.com/Psykotikism/L4D1-2_Signatures
+			 *
+			 * CTerrorPlayer::OnTakeDamage_Alive(CTakeDamageInfo const&)
+			 *
+			 * How to find on Windows:
+			 * 1. Find the function's offsets with asherkin's VTable dump.
+			 * 2. In IDA Pro, go to the ".rdata" section of the Windows binary.
+			 * 3. Search for "CTerrorPlayer::`vftable'" to jump to the "CTerrorPlayer" vtable.
+			 * 4. Compare your dump's offsets with asherkin's dump's offsets to find the target function.
+			 * 5. Look for the target function in the Windows binary.
+			 **/
+			"CTerrorPlayer::OnTakeDamage_Alive"
+			{
+				"library"	"server"
+				"linux"		"@_ZN13CTerrorPlayer18OnTakeDamage_AliveERK15CTakeDamageInfo"
+				"windows"	"\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x8B\x2A\x2A\x83\x2A\x2A\x8B\x2A\x0F\x84\x2A\x2A\x2A\x2A\x8B\x15\x2A\x2A\x2A\x2A\x8B\x2A\x81\xE1\x2A\x2A\x2A\x2A\xC1\x2A\x2A\x8D\x2A\x2A\x2A\x85\x2A\x0F"
+				/* ? ? ? ? ? ? ? ? ? 8B ? ? 83 ? ? 8B ? 0F 84 ? ? ? ? 8B 15 ? ? ? ? 8B ? 81 E1 ? ? ? ? C1 ? ? 8D ? ? ? 85 ? 0F */
+			}
+		}
+	}
+
+	"left4dead2"
+	{
+		"Offsets"
+		{
+			// 13052 (0x32FC) on Linux and 13072 (0x3310) on Windows - the offset to search for the "m_isGoingToDie" property (dump netprops and view offset)
+			// Then you will see +1.0 starting with CMP around the offset:
+			/*
+				if ( *((_BYTE *)this + 13052) && !(*(unsigned __int8 (__cdecl **)(CTerrorPlayer *))(*(_DWORD *)this + 2024))(this) )
+					v79 = v79 + 1.0;
+			*/
+			"OnTakeDamage_Alive_Offset"
+			{
+				"linux"			"617"
+				"windows"		"1656"
+			}
+			"OnTakeDamage_Alive_Bytes"
+			{
+				"linux"			"33"
+				"windows"		"30"
+			}
+			"OnTakeDamage_Alive_Match"
+			{
+				"linux"			"128"
+				"windows"		"128"
+			}
+		}
+
+		"Signatures"
+		{
+			/**
+			 * Thanks to "Psyk0tik" from: https://github.com/Psykotikism/L4D1-2_Signatures
+			 *
+			 * CTerrorPlayer::OnTakeDamage_Alive(CTakeDamageInfo const&)
+			 *
+			 * How to find on Windows:
+			 * 1. Find the function's offsets with asherkin's VTable dump.
+			 * 2. In IDA Pro, go to the ".rdata" section of the Windows binary.
+			 * 3. Search for "CTerrorPlayer::`vftable'" to jump to the "CTerrorPlayer" vtable.
+			 * 4. Compare your dump's offsets with asherkin's dump's offsets to find the target function.
+			 * 5. Look for the target function in the Windows binary.
+			 **/
+			"CTerrorPlayer::OnTakeDamage_Alive"
+			{
+				"library"	"server"
+				"linux"		"@_ZN13CTerrorPlayer18OnTakeDamage_AliveERK15CTakeDamageInfo"
+				"windows"	"\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x2A\x53\x8B\x2A\x2A\x56\x8B\x2A\x8B\x2A\x2A\x57\x83\x2A\x2A\x74"
+				/* ? ? ? ? ? ? ? ? ? 53 8B ? ? 56 8B ? 8B ? ? 57 83 ? ? 74 */
+			}
+		}
+	}
+}
